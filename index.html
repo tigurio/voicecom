@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<style>
+		body{font-size: 2em;}
+		.addclass{background-color: #000; color: #fff; font-size: 10em;}
+	</style>
+</head>
+<body>
+	<p>teste</p>
+	<button id="speakBtn" class="btn">comando de voz</button>
+
+	<!-- SCRIPT PARA ATIVAR O LIVERELOAD -->
+	<script>document.write('<script src="http://' + (location.host || '${1:localhost}').split(':')[0] + ':${2:35729}/livereload.js?snipver=1"></' + 'script>')</script>
+	<!-- ========= -->
+
+	<script>
+		window.addEventListener('DOMContentLoaded', function(e){
+			var speakBtn = document.querySelector('#speakBtn');
+
+			if(window.SpeechRecognition || window. webkitSpeechRecognition){
+				
+				var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+
+				var recognition = new SpeechRecognition();
+
+				speakBtn.addEventListener('click', function(e){
+					recognition.start();
+				}, false);
+
+				recognition.addEventListener('result', function(e){
+					console.log(e);
+					var result = e.results[0][0].transcript;
+					console.log(result);
+					//alert(result);
+
+					//FAZENDO INSERÇÃO DE CLASSE VIA COMANDO DE VOZ
+					if(result.toLowerCase() === 'luz'){
+						document.body.classList.toogle('addclass');
+					}
+
+					//FAZER USUÁRIO ACESSAR SITE VIA COMANDO DE VOZ
+					//window.location.href = 'http://' + result;
+
+				}, false);
+			}else{
+				alert('este navegador não suporta esta funcionalidade ainda!');
+			}
+		},false)
+	</script>
+</body>
+</html>
